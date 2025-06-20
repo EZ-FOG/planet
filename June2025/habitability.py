@@ -57,7 +57,7 @@ weights = {
     'lum': 0.05
 }
 
-# Main function to compute habitability score using weighted feature scores
+# main function to compute habitability score using weighted feature scores
 def compute_habitability(row):
     scores = {
         'eqt': score_eqt(row['pl_eqt']),
@@ -68,17 +68,16 @@ def compute_habitability(row):
         'teff': score_teff(row['st_teff']),
         'lum': score_lum(row['st_lum']),
     }
-    # Weighted average
+    # weighted average
     habitability = sum(scores[feat] * weights[feat] for feat in weights)
     return round(habitability * 100, 2)  # Scale to percentage
 
-# filter out rows with too many missing values >2
+# filter out rows with too many missing values (>2)
 df['null_count'] = df[['pl_eqt', 'pl_insol', 'pl_orbeccen', 'pl_rade', 'pl_masse', 'st_teff', 'st_lum']].isnull().sum(axis=1)
 df['habitability_percent'] = df.apply(lambda row: compute_habitability(row) if row['null_count'] <= 2 else None, axis=1)
 df.drop(columns=['null_count'], inplace=True)
 
-# Fill planets that didn't get a score with a clear label
+# fill planets that didn't get scored
 df['habitability_percent'] = df['habitability_percent'].fillna("Not enough data")
 
-# Save to new Excel file
 df.to_excel("planetary systems with habitability.xlsx", index=False)
