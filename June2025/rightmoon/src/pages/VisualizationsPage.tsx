@@ -95,7 +95,7 @@ const VisualizationsPage = () => {
                   </p>
                 </>
               ),
-              reverse: true,
+              // reverse: true,
             },
             {
               title: "Correlation Heatmap",
@@ -158,7 +158,7 @@ const VisualizationsPage = () => {
                   </p>
                 </>
               ),
-              reverse: true,
+              // reverse: true,
             }
           ].map(({ title, icon, imgSrc, text, reverse }, i) => (
             <div
